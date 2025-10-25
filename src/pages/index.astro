@@ -1,0 +1,272 @@
+---
+import "../styles/global.css";
+import "../styles/index.css";
+
+import experiencesData from "../../public/data/experiences.json";
+import educationData from "../../public/data/education.json";
+import technologiesData from "../../public/data/technologies.json";
+import languagesData from "../../public/data/languages.json";
+import footerLinksData from "../../public/data/links.json";
+
+const experiences = experiencesData;
+const education = educationData;
+const technologies = technologiesData;
+const languages = languagesData;
+const footerLinks = footerLinksData;
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link
+			rel="icon"
+			type="image/svg+xml"
+			href="/favicon.svg"
+		/>
+		<meta
+			name="viewport"
+			content="width=device-width"
+		/>
+		<meta
+			name="generator"
+			content={Astro.generator}
+		/>
+		<title>Joaquín - Software Engineer</title>
+		<meta
+			name="description"
+			content="Portfolio de Joaquín - Software Engineer"
+		/>
+
+		<!-- Open Graph / Facebook -->
+		<meta
+			property="og:type"
+			content="website"
+		/>
+		<meta
+			property="og:url"
+			content={Astro.url}
+		/>
+		<meta
+			property="og:title"
+			content="Joaquín - Software Engineer"
+		/>
+		<meta
+			property="og:description"
+			content="Portfolio de Joaquín - Software Engineer"
+		/>
+		<meta
+			property="og:image"
+			content={new URL("/images/profile.jpg", Astro.url)}
+		/>
+
+		<!-- Twitter -->
+		<meta
+			name="twitter:card"
+			content="summary"
+		/>
+		<meta
+			name="twitter:url"
+			content={Astro.url}
+		/>
+		<meta
+			name="twitter:title"
+			content="Joaquín - Software Engineer"
+		/>
+		<meta
+			name="twitter:description"
+			content="Portfolio de Joaquín - Software Engineer"
+		/>
+		<meta
+			name="twitter:image"
+			content={new URL("/images/profile.jpg", Astro.url)}
+		/>
+	</head>
+	<body>
+		<!-- Header -->
+		<header>
+			<a
+				href="#links"
+				class="contact-link"
+				>Contact me</a
+			>
+		</header>
+
+		<main>
+			<!-- Hero Section -->
+			<section class="hero">
+				<div class="profile-image">
+					<img
+						src="/images/profile.jpg"
+						alt="Joaquín - Software Engineer"
+					/>
+				</div>
+				<h1>Hi, I'm Joaquín!</h1>
+				<p class="subtitle">Software Engineer</p>
+			</section>
+
+			<!-- Experience Section -->
+			<section class="section">
+				<hr />
+				<h2>Experience</h2>
+				{
+					experiences.map((exp: any, index: number) => (
+						<article class="experience-item">
+							<h3>{exp.position}</h3>
+							<p class="company">{exp.company}</p>
+							<p class="details">
+								{exp.employmentType} • {exp.startDate} -{" "}
+								{exp.endDate} • {exp.location}
+							</p>
+							<div class="description-container">
+								<p
+									class="description"
+									id={`desc-${index}`}
+								>
+									{exp.description}
+								</p>
+								<button
+									class="see-more-btn"
+									data-target={`desc-${index}`}
+									aria-expanded="false"
+								>
+									see more
+								</button>
+							</div>
+						</article>
+					))
+				}
+			</section>
+
+			<!-- Education Section -->
+			<section class="section">
+				<hr />
+				<h2>Education</h2>
+				{
+					education.map((edu: any) => (
+						<article class="education-item">
+							<h3>{edu.institution}</h3>
+							<p class="degree">
+								{edu.level} - {edu.title}
+							</p>
+							<p class="details">
+								{edu.startYear} - {edu.endYear}
+							</p>
+							{edu.grade && (
+								<p class="grade">Grade: {edu.grade}</p>
+							)}
+						</article>
+					))
+				}
+			</section>
+
+			<!-- Languages Section -->
+			<section class="section">
+				<hr />
+				<h2>Languages</h2>
+				{
+					languages.map((lang: any) => (
+						<article class="language-item">
+							<h3>{lang.name}</h3>
+							<p class="level">{lang.level}</p>
+						</article>
+					))
+				}
+			</section>
+
+			<!-- Technologies Section -->
+			<section class="section">
+				<hr />
+				<h2>Technologies</h2>
+				<div class="technologies-grid">
+					{
+						technologies.map((tech: any) => (
+							<div
+								class="technology-item"
+								title={tech.name}
+							>
+								<img
+									src={tech.icon}
+									alt={tech.name}
+									loading="lazy"
+									width="40"
+									height="40"
+								/>
+								<span>{tech.name}</span>
+							</div>
+						))
+					}
+				</div>
+			</section>
+		</main>
+
+		<!-- Footer / Links -->
+		<footer id="links">
+			<hr />
+			<div class="footer-links">
+				{
+					footerLinks.map((item: any) => {
+						const isExternal =
+							typeof item.url === "string" &&
+							item.url.startsWith("http");
+						return (
+							<>
+								<span class="link-label">{item.label}</span>
+								<a
+									href={item.url}
+									class="link-url"
+									target={isExternal ? "_blank" : undefined}
+									rel={
+										isExternal
+											? "noopener noreferrer"
+											: undefined
+									}
+									download={item.download ? "" : undefined}
+									aria-label={`${item.label}: ${item.displayText || item.url}`}
+								>
+									{item.displayText || item.url}
+								</a>
+							</>
+						);
+					})
+				}
+			</div>
+		</footer>
+	</body>
+</html>
+
+<script>
+	document.addEventListener("DOMContentLoaded", () => {
+		const seeMoreButtons = document.querySelectorAll(".see-more-btn");
+
+		seeMoreButtons.forEach((button) => {
+			const targetId = button.getAttribute("data-target");
+			if (!targetId) return;
+
+			const description = document.getElementById(targetId);
+			if (!description) return;
+
+			const lineHeight = parseFloat(
+				getComputedStyle(description).lineHeight,
+			);
+			const maxHeight = lineHeight * 3;
+
+			if (description.scrollHeight <= maxHeight) {
+				button.classList.add("hidden");
+			}
+
+			button.addEventListener("click", () => {
+				const isExpanded = description.classList.contains("expanded");
+
+				if (isExpanded) {
+					description.classList.remove("expanded");
+					button.textContent = "see more";
+					button.setAttribute("aria-expanded", "false");
+				} else {
+					description.classList.add("expanded");
+					button.textContent = "see less";
+					button.setAttribute("aria-expanded", "true");
+				}
+			});
+		});
+	});
+</script>

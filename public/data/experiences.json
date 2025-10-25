@@ -1,0 +1,29 @@
+[
+    {
+        "position": "Software Engineer",
+        "company": "Primero Systems Inc",
+        "employmentType": "Full-time",
+        "startDate": "Dec 2019",
+        "endDate": "Present",
+        "location": "Remote",
+        "description": "Since joining the company, I have actively participated in a project for a client in the analytical laboratory sector. In my role, I have performed various tasks related to software development, troubleshooting technical issues, and direct communication with the client for gathering requirements and defining effective solutions. I work with technologies such as C# .NET Core, ReactJS, PostgreSQL, among others. Additionally, for over a year, I have taken on technical sub-leadership responsibilities within a team, coordinating a small group of developers, providing technical support, and collaborating in task planning and supervision."
+    },
+    {
+        "position": "Software Developer",
+        "company": "Grupo Aicon Srl",
+        "employmentType": "Part-time",
+        "startDate": "Apr 2017",
+        "endDate": "Mar 2019",
+        "location": "Rosario, Santa Fe, Argentina - On-site",
+        "description": "For nearly two years, I worked on-site as part of a small team, actively contributing to the development, maintenance, and support of a proprietary ERP system. My responsibilities included implementing new features, troubleshooting issues, optimizing internal processes, and customizing the system based on the needs of various clients, such as gas stations, supermarkets, hotels, and campgrounds. This was my first experience as a developer and gave me the opportunity to work in real production environments, handling both backend tasks and user interaction to ensure the system operated in a stable and efficient manner."
+    },
+    {
+        "position": "Technical Support",
+        "company": "Dirección General de Fiscalización del Transporte de la Municipalidad de Rosario",
+        "employmentType": "Internship",
+        "startDate": "July 2016",
+        "endDate": "March 2017",
+        "location": "Rosario, Santa Fe, Argentina - On-site",
+        "description": "Responsible for the maintenance of workstations, the installation and configuration of new terminals, as well as structured cabling and integration of network peripherals, ensuring their proper functioning within the infrastructure."
+    }
+]
