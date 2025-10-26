@@ -1,0 +1,29 @@
+[
+    {
+        "position": "Ingeniero de Software",
+        "company": "Primero Systems Inc",
+        "employmentType": "Full-time",
+        "startDate": "Dic 2019",
+        "endDate": "Presente",
+        "location": "Remote",
+        "description": "Desde que me incorporé a la empresa, he participado activamente en un proyecto para un cliente del sector de laboratorio analítico. En mi rol, he realizado diversas tareas relacionadas con el desarrollo de software, la resolución de problemas técnicos y la comunicación directa con el cliente para la recopilación de requisitos y la definición de soluciones efectivas. Trabajo con tecnologías como C# .NET Core, ReactJS, PostgreSQL, entre otras. Además, desde hace más de un año, he asumido responsabilidades de sub-liderazgo técnico dentro de un equipo, coordinando un pequeño grupo de desarrolladores, brindando soporte técnico y colaborando en la planificación y supervisión de tareas."
+    },
+    {
+        "position": "Desarrollador de Software",
+        "company": "Grupo Aicon Srl",
+        "employmentType": "Part-time",
+        "startDate": "Abr 2017",
+        "endDate": "Mar 2019",
+        "location": "Rosario, Santa Fe, Argentina - On-site",
+        "description": "Durante casi dos años, trabajé de forma presencial como parte de un pequeño equipo, contribuyendo activamente al desarrollo, mantenimiento y soporte de un sistema ERP propio. Mis responsabilidades incluían la implementación de nuevas funcionalidades, la resolución de problemas, la optimización de procesos internos y la personalización del sistema según las necesidades de diversos clientes, como estaciones de servicio, supermercados, hoteles y campings. Esta fue mi primera experiencia como desarrollador y me dio la oportunidad de trabajar en entornos de producción reales, manejando tanto tareas de backend como la interacción con usuarios para garantizar que el sistema operara de manera estable y eficiente."
+    },
+    {
+        "position": "Soporte Técnico",
+        "company": "Dirección General de Fiscalización del Transporte de la Municipalidad de Rosario",
+        "employmentType": "Internship",
+        "startDate": "Jul 2016",
+        "endDate": "Mar 2017",
+        "location": "Rosario, Santa Fe, Argentina - On-site",
+        "description": "Responsable del mantenimiento de estaciones de trabajo, la instalación y configuración de nuevas terminales, así como del cableado estructurado e integración de periféricos de red, garantizando su correcto funcionamiento dentro de la infraestructura."
+    }
+]

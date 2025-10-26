@@ -1,0 +1,27 @@
+{
+    "hero": {
+        "greeting": "Ciao, sono Joaquín!",
+        "subtitle": "Ingegnere del Software"
+    },
+    "nav": {
+        "contact": "Contattami"
+    },
+    "sections": {
+        "experience": "Esperienza",
+        "education": "Istruzione",
+        "languages": "Lingue",
+        "technologies": "Tecnologie"
+    },
+    "buttons": {
+        "seeMore": "vedi altro",
+        "seeLess": "nascondi",
+        "scrollToTop": "Torna su"
+    },
+    "meta": {
+        "title": "Joaquín - Ingegnere del Software",
+        "description": "Portfolio di Joaquín - Ingegnere del Software"
+    },
+    "labels": {
+        "grade": "Voto"
+    }
+}

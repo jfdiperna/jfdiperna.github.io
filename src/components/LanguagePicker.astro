@@ -1,0 +1,44 @@
+---
+import { languages, type Locale } from "../i18n/utils";
+import "../styles/language-picker.css";
+
+interface Props {
+	currentLang: Locale;
+}
+
+const { currentLang } = Astro.props;
+---
+
+<div class="language-picker">
+	{
+		Object.entries(languages).map(([lang, label]) => {
+			const href = lang === "en" ? "/" : `/${lang}/`;
+			const isActive = currentLang === lang;
+
+			return (
+				<a
+					href={href}
+					class={isActive ? "active" : ""}
+					aria-label={`Switch to ${label}`}
+					aria-current={isActive ? "page" : undefined}
+					data-lang={lang}
+				>
+					{lang.toUpperCase()}
+				</a>
+			);
+		})
+	}
+</div>
+
+<script>
+	// Save language preference to localStorage when clicked
+	document.querySelectorAll(".language-picker a").forEach((link) => {
+		link.addEventListener("click", (e) => {
+			const target = e.currentTarget as HTMLAnchorElement;
+			const lang = target.getAttribute("data-lang");
+			if (lang) {
+				localStorage.setItem("preferredLanguage", lang);
+			}
+		});
+	});
+</script>

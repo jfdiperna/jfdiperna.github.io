@@ -1,0 +1,13 @@
+[
+    {
+        "label": "LinkedIn",
+        "url": "https://linkedin.com/in/jfdiperna",
+        "displayText": "in/jfdiperna"
+    },
+    {
+        "label": "CV",
+        "url": "/resume.pdf",
+        "displayText": "scarica",
+        "download": true
+    }
+]

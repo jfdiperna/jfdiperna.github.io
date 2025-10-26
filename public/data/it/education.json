@@ -1,0 +1,18 @@
+[
+    {
+        "institution": "Universidad Tecnológica Nacional",
+        "level": "Ingegneria",
+        "title": "Tecnologia dell'Informazione",
+        "startYear": "2012",
+        "endYear": "2019",
+        "grade": "8.65 / 10"
+    },
+    {
+        "institution": "Universidad Tecnológica Nacional",
+        "level": "Diploma",
+        "title": "Analisi dei Sistemi",
+        "startYear": "2012",
+        "endYear": "2018",
+        "grade": "8.63 / 10"
+    }
+]

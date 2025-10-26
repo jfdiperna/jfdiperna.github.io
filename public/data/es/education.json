@@ -1,0 +1,18 @@
+[
+    {
+        "institution": "Universidad Tecnológica Nacional",
+        "level": "Ingeniería",
+        "title": "Sistemas de Información",
+        "startYear": "2012",
+        "endYear": "2019",
+        "grade": "8.65 / 10"
+    },
+    {
+        "institution": "Universidad Tecnológica Nacional",
+        "level": "Técnico",
+        "title": "Análisis de Sistemas",
+        "startYear": "2012",
+        "endYear": "2018",
+        "grade": "8.63 / 10"
+    }
+]

@@ -1,0 +1,27 @@
+{
+    "hero": {
+        "greeting": "Hi, I'm Joaquín!",
+        "subtitle": "Software Engineer"
+    },
+    "nav": {
+        "contact": "Contact me"
+    },
+    "sections": {
+        "experience": "Experience",
+        "education": "Education",
+        "languages": "Languages",
+        "technologies": "Technologies"
+    },
+    "buttons": {
+        "seeMore": "see more",
+        "seeLess": "see less",
+        "scrollToTop": "Scroll to top"
+    },
+    "meta": {
+        "title": "Joaquín - Software Engineer",
+        "description": "Portfolio of Joaquín - Software Engineer"
+    },
+    "labels": {
+        "grade": "Grade"
+    }
+}

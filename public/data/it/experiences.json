@@ -1,0 +1,29 @@
+[
+    {
+        "position": "Ingegnere del Software",
+        "company": "Primero Systems Inc",
+        "employmentType": "Full-time",
+        "startDate": "Dic 2019",
+        "endDate": "Presente",
+        "location": "Remote",
+        "description": "Da quando sono entrato nell'azienda, ho partecipato attivamente a un progetto per un cliente nel settore dei laboratori analitici. Nel mio ruolo, ho svolto varie attività legate allo sviluppo software, alla risoluzione di problemi tecnici e alla comunicazione diretta con il cliente per la raccolta dei requisiti e la definizione di soluzioni efficaci. Lavoro con tecnologie come C# .NET Core, ReactJS, PostgreSQL, tra le altre. Inoltre, da più di un anno, ho assunto responsabilità di sub-leadership tecnica all'interno di un team, coordinando un piccolo gruppo di sviluppatori, fornendo supporto tecnico e collaborando nella pianificazione e supervisione delle attività."
+    },
+    {
+        "position": "Sviluppatore Software",
+        "company": "Gruppo Aicon Srl",
+        "employmentType": "Part-time",
+        "startDate": "Apr 2017",
+        "endDate": "Mar 2019",
+        "location": "Rosario, Santa Fe, Argentina - On-site",
+        "description": "Per quasi due anni, ho lavorato in presenza come parte di un piccolo team, contribuendo attivamente allo sviluppo, manutenzione e supporto di un sistema ERP proprietario. Le mie responsabilità includevano l'implementazione di nuove funzionalità, la risoluzione di problemi, l'ottimizzazione dei processi interni e la personalizzazione del sistema in base alle esigenze di vari clienti, come stazioni di servizio, supermercati, hotel e campeggi. Questa è stata la mia prima esperienza come sviluppatore e mi ha dato l'opportunità di lavorare in ambienti di produzione reali, gestendo sia compiti di backend che l'interazione con gli utenti per garantire che il sistema funzionasse in modo stabile ed efficiente."
+    },
+    {
+        "position": "Supporto Tecnico",
+        "company": "Dirección General de Fiscalización del Transporte de la Municipalidad de Rosario",
+        "employmentType": "Internship",
+        "startDate": "Lug 2016",
+        "endDate": "Mar 2017",
+        "location": "Rosario, Santa Fe, Argentina - On-site",
+        "description": "Responsabile della manutenzione delle stazioni di lavoro, dell'installazione e configurazione di nuovi terminali, nonché del cablaggio strutturato e dell'integrazione delle periferiche di rete, garantendo il loro corretto funzionamento all'interno dell'infrastruttura."
+    }
+]

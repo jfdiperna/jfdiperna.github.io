@@ -1,0 +1,21 @@
+.language-picker {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.language-picker a {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 0.2s ease;
+    font-weight: 500;
+}
+
+.language-picker a:hover {
+    color: var(--color-text);
+}
+
+.language-picker a.active {
+    color: var(--color-text);
+    font-weight: 700;
+}

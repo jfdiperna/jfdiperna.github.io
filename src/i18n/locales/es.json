@@ -1,0 +1,27 @@
+{
+    "hero": {
+        "greeting": "¡Hola, soy Joaquín!",
+        "subtitle": "Ingeniero de Software"
+    },
+    "nav": {
+        "contact": "Contáctame"
+    },
+    "sections": {
+        "experience": "Experiencia",
+        "education": "Educación",
+        "languages": "Idiomas",
+        "technologies": "Tecnologías"
+    },
+    "buttons": {
+        "seeMore": "ver más",
+        "seeLess": "ver menos",
+        "scrollToTop": "Volver arriba"
+    },
+    "meta": {
+        "title": "Joaquín - Ingeniero de Software",
+        "description": "Portfolio de Joaquín - Ingeniero de Software"
+    },
+    "labels": {
+        "grade": "Promedio"
+    }
+}

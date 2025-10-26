@@ -1,12 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
 
 :root {
-    --color-text: #2c2416;
-    --color-text-secondary: #5c5041;
-    --color-text-muted: #8c7d6b;
-    --color-bg: #f5f1e8;
-    --color-border: #d9d0c1;
-    --color-bg-secondary: #ebe4d6;
+    /* Color variables are injected from src/utils/colors.ts via MainLayout.astro */
     --font-main: 'JetBrains Mono', Consolas, 'Liberation Mono', 'Courier New', monospace;
 }
 
@@ -57,6 +52,43 @@ hr {
     border: none;
     border-top: 1px solid var(--color-border);
     margin: 1.5rem 0 0.5rem 0;
+}
+
+/* Scroll to top button */
+#scroll-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: var(--color-text);
+    color: var(--color-bg);
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.2s ease;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(44, 36, 22, 0.2);
+}
+
+#scroll-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+#scroll-to-top:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(44, 36, 22, 0.3);
+}
+
+#scroll-to-top:active {
+    transform: translateY(-1px);
 }
 
 /* Tablet and Desktop */

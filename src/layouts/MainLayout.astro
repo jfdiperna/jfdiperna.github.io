@@ -1,0 +1,477 @@
+---
+import "../styles/global.css";
+import "../styles/index.css";
+import { Image } from "astro:assets";
+import profileImage from "../../public/images/profile.jpg";
+import { COLORS } from "../utils/colors";
+
+import {
+	useTranslations,
+	ogLocales,
+	defaultLang,
+	translations,
+	type Locale,
+} from "../i18n/utils";
+import { loadLocaleData } from "../utils/loadData";
+import LanguagePicker from "../components/LanguagePicker.astro";
+
+interface Props {
+	currentLang: Locale;
+}
+
+const { currentLang } = Astro.props;
+const t = useTranslations(currentLang);
+const { experiences, education, technologies, languages, links } =
+	await loadLocaleData(currentLang);
+const footerLinks = links;
+
+// SEO: Generate alternate URLs for hreflang
+const baseUrl = Astro.site?.toString().replace(/\/$/, "");
+const currentPath = Astro.url.pathname;
+const canonicalURL = new URL(currentPath, baseUrl + "/");
+
+const locales = Object.keys(translations) as Locale[];
+---
+
+<html
+	lang={currentLang}
+	dir="ltr"
+>
+	<head>
+		<meta charset="utf-8" />
+
+		<!-- Language persistence and auto-detection -->
+		<script is:inline define:vars={{ currentLang, defaultLang, locales }}>
+			(function () {
+				// Function to extract base language code (e.g., 'en-US' -> 'en', 'es-AR' -> 'es')
+				function getBaseLanguage(langCode) {
+					if (!langCode) return null;
+					const base = langCode.split("-")[0].toLowerCase();
+					return locales.includes(base) ? base : null;
+				}
+
+				// Check if user has already set a preference
+				const preferredLang = localStorage.getItem("preferredLanguage");
+
+				if (preferredLang) {
+					// User has explicitly chosen a language - respect it
+					if (
+						locales.includes(preferredLang) &&
+						preferredLang !== currentLang
+					) {
+						const newPath =
+							preferredLang === defaultLang
+								? "/"
+								: `/${preferredLang}/`;
+						window.location.replace(newPath);
+					}
+				} else {
+					// First visit: try to detect browser language
+					const browserLang = getBaseLanguage(
+						navigator.language || navigator.userLanguage,
+					);
+
+					if (browserLang && browserLang !== currentLang) {
+						// Save the detected language as preference
+						localStorage.setItem("preferredLanguage", browserLang);
+						const newPath =
+							browserLang === defaultLang
+								? "/"
+								: `/${browserLang}/`;
+						window.location.replace(newPath);
+					} else if (currentLang !== defaultLang) {
+						// User is on a non-default language page but browser doesn't match
+						// Save current page language to prevent future redirects
+						localStorage.setItem("preferredLanguage", currentLang);
+					}
+				}
+			})();
+		</script>
+
+		<link
+			rel="icon"
+			type="image/svg+xml"
+			href="/favicon.svg"
+		/>
+		<meta
+			name="viewport"
+			content="width=device-width"
+		/>
+		<meta
+			name="theme-color"
+			content={COLORS.bg}
+		/>
+		<meta
+			name="generator"
+			content={Astro.generator}
+		/>
+		<title>{t("meta.title")}</title>
+		<meta
+			name="description"
+			content={t("meta.description")}
+		/>
+
+		<!-- Canonical URL -->
+		<link
+			rel="canonical"
+			href={canonicalURL}
+		/>
+
+		<!-- Hreflang for SEO -->
+		<link
+			rel="alternate"
+			hreflang="en"
+			href={`${baseUrl}/`}
+		/>
+		<link
+			rel="alternate"
+			hreflang="es"
+			href={`${baseUrl}/es/`}
+		/>
+		<link
+			rel="alternate"
+			hreflang="it"
+			href={`${baseUrl}/it/`}
+		/>
+		<link
+			rel="alternate"
+			hreflang="x-default"
+			href={`${baseUrl}/`}
+		/>
+
+		<!-- Open Graph / Facebook -->
+		<meta
+			property="og:type"
+			content="website"
+		/>
+		<meta
+			property="og:url"
+			content={canonicalURL}
+		/>
+		<meta
+			property="og:locale"
+			content={ogLocales[currentLang]}
+		/>
+		<meta
+			property="og:title"
+			content={t("meta.title")}
+		/>
+		<meta
+			property="og:description"
+			content={t("meta.description")}
+		/>
+		<meta
+			property="og:image"
+			content={new URL("/images/profile.jpg", Astro.url)}
+		/>
+
+		<!-- Twitter -->
+		<meta
+			name="twitter:card"
+			content="summary"
+		/>
+		<meta
+			name="twitter:url"
+			content={canonicalURL}
+		/>
+		<meta
+			name="twitter:title"
+			content={t("meta.title")}
+		/>
+		<meta
+			name="twitter:description"
+			content={t("meta.description")}
+		/>
+		<meta
+			name="twitter:image"
+			content={new URL("/images/profile.jpg", Astro.url)}
+		/>
+
+		<!-- JSON-LD Structured Data -->
+		<script
+			type="application/ld+json"
+			set:html={JSON.stringify({
+				"@context": "https://schema.org",
+				"@type": "Person",
+				name: t("meta.title"),
+				description: t("meta.description"),
+				url: canonicalURL.toString(),
+				image: new URL("/images/profile.jpg", Astro.url).toString(),
+				sameAs: links
+					.filter((link) => !link.download)
+					.map((link) =>
+						link.url.startsWith("http")
+							? link.url
+							: new URL(link.url, baseUrl + "/").toString(),
+					),
+				jobTitle: t("hero.subtitle"),
+				worksFor: experiences[0]
+					? {
+							"@type": "Organization",
+							name: experiences[0].company,
+						}
+					: undefined,
+				alumniOf: education.map((edu) => ({
+					"@type": "EducationalOrganization",
+					name: edu.institution,
+				})),
+				knowsLanguage: languages.map((lang) => lang.name),
+			})}
+		/>
+
+		<!-- Inject color constants as CSS variables -->
+		<style
+			is:global
+			set:html={`
+			:root {
+				--color-text: ${COLORS.text};
+				--color-text-secondary: ${COLORS.textSecondary};
+				--color-text-muted: ${COLORS.textMuted};
+				--color-bg: ${COLORS.bg};
+				--color-border: ${COLORS.border};
+				--color-bg-secondary: ${COLORS.bgSecondary};
+			}
+		`}
+		></style>
+	</head>
+	<body>
+		<!-- Header -->
+		<header>
+			<LanguagePicker currentLang={currentLang} />
+			<a
+				href="#links"
+				class="contact-link"
+			>
+				{t("nav.contact")}
+			</a>
+		</header>
+
+		<main>
+			<!-- Hero Section -->
+			<section class="hero">
+				<div class="profile-image">
+					<Image
+						src={profileImage}
+						alt={t("meta.title")}
+						width={200}
+						height={200}
+						loading="eager"
+						format="webp"
+					/>
+				</div>
+				<h1>{t("hero.greeting")}</h1>
+				<p class="subtitle">{t("hero.subtitle")}</p>
+			</section>
+
+			<!-- Experience Section -->
+			<section class="section">
+				<hr />
+				<h2>{t("sections.experience")}</h2>
+				{
+					experiences.map((exp, index: number) => (
+						<article class="experience-item">
+							<h3>{exp.position}</h3>
+							<p class="company">{exp.company}</p>
+							<p class="details">
+								{exp.employmentType} • {exp.startDate} -{" "}
+								{exp.endDate} • {exp.location}
+							</p>
+							<div class="description-container">
+								<p
+									class="description"
+									id={`desc-${index}`}
+								>
+									{exp.description}
+								</p>
+								<button
+									class="see-more-btn"
+									data-target={`desc-${index}`}
+									data-lang={currentLang}
+									aria-expanded="false"
+								>
+									{t("buttons.seeMore")}
+								</button>
+							</div>
+						</article>
+					))
+				}
+			</section>
+
+			<!-- Education Section -->
+			<section class="section">
+				<hr />
+				<h2>{t("sections.education")}</h2>
+				{
+					education.map((edu) => (
+						<article class="education-item">
+							<h3>{edu.institution}</h3>
+							<p class="degree">
+								{edu.level} - {edu.title}
+							</p>
+							<p class="details">
+								{edu.startYear} - {edu.endYear}
+							</p>
+							{edu.grade && (
+								<p class="grade">
+									{t("labels.grade")}: {edu.grade}
+								</p>
+							)}
+						</article>
+					))
+				}
+			</section>
+
+			<!-- Languages Section -->
+			<section class="section">
+				<hr />
+				<h2>{t("sections.languages")}</h2>
+				{
+					languages.map((lang) => (
+						<article class="language-item">
+							<h3>{lang.name}</h3>
+							<p class="level">{lang.level}</p>
+						</article>
+					))
+				}
+			</section>
+
+			<!-- Technologies Section -->
+			<section class="section">
+				<hr />
+				<h2>{t("sections.technologies")}</h2>
+				<div class="technologies-grid">
+					{
+						technologies.map((tech) => (
+							<div
+								class="technology-item"
+								title={tech.name}
+							>
+								<img
+									src={tech.icon}
+									alt={tech.name}
+									loading="lazy"
+									width="40"
+									height="40"
+								/>
+								<span>{tech.name}</span>
+							</div>
+						))
+					}
+				</div>
+			</section>
+		</main>
+
+		<!-- Footer / Links -->
+		<footer id="links">
+			<hr />
+			<div class="footer-links">
+				{
+					footerLinks.map((item) => {
+						const isExternal =
+							typeof item.url === "string" &&
+							item.url.startsWith("http");
+						return (
+							<>
+								<span class="link-label">{item.label}</span>
+								<a
+									href={item.url}
+									class="link-url"
+									target={isExternal ? "_blank" : undefined}
+									rel={
+										isExternal
+											? "noopener noreferrer"
+											: undefined
+									}
+									download={item.download ? "" : undefined}
+									aria-label={`${item.label}: ${item.displayText || item.url}`}
+								>
+									{item.displayText || item.url}
+								</a>
+							</>
+						);
+					})
+				}
+			</div>
+		</footer>
+
+		<!-- Scroll to top button -->
+		<button
+			id="scroll-to-top"
+			aria-label={t("buttons.scrollToTop")}
+			title={t("buttons.scrollToTop")}
+		>
+			↑
+		</button>
+	</body>
+</html>
+
+<script
+	define:vars={{
+		seeMore: t("buttons.seeMore"),
+		seeLess: t("buttons.seeLess"),
+	}}
+>
+	document.addEventListener("DOMContentLoaded", () => {
+		const seeMoreButtons = document.querySelectorAll(".see-more-btn");
+
+		seeMoreButtons.forEach((button) => {
+			const targetId = button.getAttribute("data-target");
+			if (!targetId) return;
+
+			const description = document.getElementById(targetId);
+			if (!description) return;
+
+			const lineHeight = parseFloat(
+				getComputedStyle(description).lineHeight,
+			);
+			const maxHeight = lineHeight * 3;
+
+			if (description.scrollHeight <= maxHeight) {
+				button.classList.add("hidden");
+			}
+
+			button.addEventListener("click", () => {
+				const isExpanded = description.classList.contains("expanded");
+
+				if (isExpanded) {
+					description.classList.remove("expanded");
+					button.textContent = seeMore;
+					button.setAttribute("aria-expanded", "false");
+				} else {
+					description.classList.add("expanded");
+					button.textContent = seeLess;
+					button.setAttribute("aria-expanded", "true");
+				}
+			});
+		});
+	});
+</script>
+
+<script>
+	// Scroll to top button functionality
+	document.addEventListener("DOMContentLoaded", () => {
+		const scrollToTopBtn = document.getElementById("scroll-to-top");
+		if (!scrollToTopBtn) return;
+
+		// Show/hide button based on scroll position
+		const toggleScrollButton = () => {
+			if (window.scrollY > 300) {
+				scrollToTopBtn.classList.add("visible");
+			} else {
+				scrollToTopBtn.classList.remove("visible");
+			}
+		};
+
+		// Scroll to top when clicked
+		scrollToTopBtn.addEventListener("click", () => {
+			window.scrollTo({
+				top: 0,
+				behavior: "smooth",
+			});
+		});
+
+		// Check scroll position on load and scroll
+		window.addEventListener("scroll", toggleScrollButton);
+		toggleScrollButton();
+	});
+</script>
