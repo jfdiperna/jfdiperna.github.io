@@ -1,87 +1,137 @@
-# Personal Portfolio
+# Portfolio Personal
 
-Portfolio personal minimalista construido con Astro, diseño mobile-first.
+Portfolio minimalista con sistema de internacionalización completo. Soporta tres idiomas (inglés, español e italiano) con detección automática y persistencia de preferencias.
 
-## 🚀 Estructura del Proyecto
+## Stack Técnico
 
-```text
-/
+- **Framework:** Astro 5.15.1
+- **Routing i18n:** Sistema integrado con prefixDefaultLocale deshabilitado
+- **Optimización:** Imágenes en WebP, lazy loading, SEO completo
+- **Deploy:** GitHub Pages con workflow automatizado
+
+## Estructura
+
+```
 ├── public/
 │   ├── data/
-│   │   ├── experiences.json    # Experiencia laboral
-│   │   ├── education.json      # Formación académica
-│   │   ├── skills.json         # Habilidades técnicas
-│   │   ├── languages.json      # Idiomas
-│   │   └── links.json          # Enlaces de contacto/redes
-│   └── profile.png             # Foto de perfil
+│   │   ├── en/         # Contenido en inglés
+│   │   ├── es/         # Contenido en español  
+│   │   └── it/         # Contenido en italiano
+│   └── images/
+│       └── profile.jpg
 ├── src/
+│   ├── components/
+│   │   └── LanguagePicker.astro
+│   ├── i18n/
+│   │   ├── locales/    # Traducciones UI (en.json, es.json, it.json)
+│   │   └── utils.ts    # Funciones i18n, tipos Locale
+│   ├── layouts/
+│   │   └── MainLayout.astro
 │   ├── pages/
-│   │   └── index.astro         # Página principal del portfolio
-│   └── styles/
-│       ├── global.css          # Estilos globales y variables CSS
-│       └── index.css           # Estilos específicos de la página
-└── package.json
+│   │   ├── index.astro     # Ruta: /
+│   │   ├── es/
+│   │   │   └── index.astro # Ruta: /es/
+│   │   └── it/
+│   │       └── index.astro # Ruta: /it/
+│   ├── styles/
+│   │   ├── global.css
+│   │   ├── index.css
+│   │   └── language-picker.css
+│   └── utils/
+│       ├── colors.ts   # Constantes de color compartidas
+│       └── loadData.ts # Carga dinámica de datos por locale
+└── astro.config.mjs
 ```
 
-## 📝 Cómo Actualizar los Datos
+## Cómo Funciona el i18n
 
-Todos los datos del portfolio se gestionan mediante archivos JSON en `public/data/`. Edita estos archivos para actualizar tu información:
+### Detección de Idioma
+
+El sistema prioriza en este orden:
+
+1. **localStorage**: Si el usuario ya eligió un idioma, se respeta siempre
+2. **Idioma del navegador**: En la primera visita se detecta automáticamente (ej: `es-AR` → `/es/`)
+3. **Idioma de la URL**: Si llegas directo a `/it/`, se guarda italiano como preferencia
+
+El script se ejecuta en el `<head>` antes de que cargue el contenido, evitando parpadeos.
+
+### Agregar un Nuevo Idioma
+
+1. Crea carpeta `public/data/fr/` con los JSON traducidos
+2. Agrega `fr.json` en `src/i18n/locales/`
+3. Actualiza `src/i18n/utils.ts`:
+
+   ```typescript
+   export const languages = {
+       en: 'English',
+       es: 'Español',
+       it: 'Italiano',
+       fr: 'Français',  // ← nuevo
+   };
+   
+   export const ogLocales: Record<Locale, string> = {
+       en: 'en_US',
+       es: 'es_ES',
+       it: 'it_IT',
+       fr: 'fr_FR',  // ← nuevo
+   };
+   ```
+
+4. Crea `src/pages/fr/index.astro`
+5. Actualiza `astro.config.mjs`:
+
+   ```javascript
+   i18n: {
+       defaultLocale: 'en',
+       locales: ['en', 'es', 'it', 'fr'],  // ← agregar fr
+   }
+   ```
+
+## Actualizar Contenido
+
+Los archivos JSON en `public/data/{locale}/` controlan todo el contenido:
 
 ### experiences.json
 
-```json
-
-## 📝 Cómo Actualizar los Datos
-
-Todos los datos del portfolio se gestionan mediante archivos JSON en `public/data/`. Edita estos archivos para actualizar tu información:
-
-### experiences.json
 ```json
 [
-  {
-    "position": "Cargo",
-    "company": "Empresa",
-    "startDate": "Mes YYYY",
-    "endDate": "Mes YYYY",
-    "description": "Descripción de responsabilidades y logros"
-  }
+    {
+        "position": "Software Engineer",
+        "company": "Company Name",
+        "employmentType": "Full-time",  // En inglés siempre
+        "location": "Remote",            // En inglés siempre
+        "startDate": "Dec 2019",
+        "endDate": "Present",
+        "description": "Descripción del rol..."
+    }
 ]
 ```
+
+**Nota:** `employmentType` y `location` se mantienen en inglés en todos los idiomas para consistencia.
 
 ### education.json
 
 ```json
 [
-  {
-    "degree": "Título",
-    "institution": "Institución",
-    "startDate": "YYYY",
-    "endDate": "YYYY"
-  }
+    {
+        "degree": "Engineer's degree",
+        "field": "Information Technology",
+        "institution": "Universidad Tecnológica Nacional",
+        "startDate": "2012",
+        "endDate": "2019",
+        "grade": "8.65 / 10"
+    }
 ]
 ```
-
-### skills.json
-
-```json
-[
-  {
-    "name": "Tecnología",
-    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/..."
-  }
-]
-```
-
-**Nota:** Usa [Devicon](https://devicon.dev/) para obtener URLs de iconos tecnológicos.
 
 ### languages.json
 
 ```json
 [
-  {
-    "language": "Idioma",
-    "proficiency": "Nivel (Nativo, Avanzado, Intermedio, etc.)"
-  }
+    {
+        "name": "Spanish",
+        "level": "Native"
+    }
 ]
 ```
 
@@ -89,70 +139,127 @@ Todos los datos del portfolio se gestionan mediante archivos JSON en `public/dat
 
 ```json
 [
-  {
-    "label": "Email",
-    "url": "mailto:tu@email.com",
-    "displayText": "tu@email.com",
-    "download": false
-  },
-  {
-    "label": "CV",
-    "url": "/cv.pdf",
-    "displayText": "Descargar CV",
-    "download": true
-  }
+    {
+        "label": "LinkedIn",
+        "url": "https://linkedin.com/in/username",
+        "displayText": "in/username"
+    },
+    {
+        "label": "Resume",
+        "url": "/resume.pdf",
+        "displayText": "download",
+        "download": true
+    }
 ]
 ```
 
-## 🎨 Personalización de Estilos
+### technologies.json
 
-Los colores y tipografía se gestionan con variables CSS en `src/styles/global.css`:
+```json
+[
+    {
+        "name": "JavaScript",
+        "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
+    }
+]
+```
 
-```css
-:root {
-  --color-text: #333;           /* Texto principal */
-  --color-text-secondary: #666; /* Texto secundario */
-  --color-text-muted: #999;     /* Texto atenuado */
-  --color-bg: #fff;             /* Fondo principal */
-  --color-border: #e0e0e0;      /* Bordes */
-  --color-bg-secondary: #f0f0f0;/* Fondo secundario */
-  --font-main: 'JetBrains Mono', monospace;
+Iconos disponibles en [Devicon](https://devicon.dev/).
+
+## Traducciones de UI
+
+Los textos de la interfaz están en `src/i18n/locales/{locale}.json`:
+
+```json
+{
+    "hero": {
+        "greeting": "Hi, I'm Joaquín!",
+        "subtitle": "Software Engineer"
+    },
+    "nav": {
+        "contact": "Contact me"
+    },
+    "sections": {
+        "experience": "Experience",
+        "education": "Education",
+        "languages": "Languages",
+        "technologies": "Technologies"
+    },
+    "buttons": {
+        "seeMore": "see more",
+        "seeLess": "see less",
+        "scrollToTop": "Scroll to top"
+    },
+    "meta": {
+        "title": "Joaquín - Software Engineer",
+        "description": "Portfolio of Joaquín - Software Engineer"
+    }
 }
 ```
 
-Para cambiar la fuente, modifica el import en `src/styles/global.css` y actualiza `--font-main`.
+Usa la función `t()` en los componentes: `{t("hero.greeting")}`
 
-## 🖼️ Actualizar Foto de Perfil
+## Colores y Estilos
 
-Reemplaza el archivo `public/profile.png` con tu imagen (recomendado: 256x256px o mayor, formato cuadrado).
+Los colores están centralizados en `src/utils/colors.ts` e inyectados como variables CSS:
 
-## 🧞 Comandos
+```typescript
+export const COLORS = {
+    text: '#2c2416',
+    textSecondary: '#5c5041',
+    textMuted: '#8c7d6b',
+    bg: '#f5f1e8',
+    border: '#d9d0c1',
+    bgSecondary: '#ebe4d6',
+} as const;
+```
 
-| Comando                   | Acción                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Instala las dependencias                         |
-| `npm run dev`             | Inicia servidor local en `localhost:4321`        |
-| `npm run build`           | Genera build de producción en `./dist/`          |
-| `npm run preview`         | Previsualiza build localmente antes de deploy    |
-| `npm run astro`           | Ejecuta comandos CLI de Astro                    |
+En CSS se usan como: `color: var(--color-text);`
 
-## 🚀 Despliegue
+Para cambiar la paleta, edita solo `colors.ts` y se actualizará todo el sitio automáticamente (incluyendo el `theme-color` del meta tag).
 
-Este proyecto puede desplegarse en:
+## SEO
 
-- **Vercel**: Conecta tu repositorio y despliega automáticamente
-- **Netlify**: Drag & drop de la carpeta `dist/` o deploy desde Git
-- **GitHub Pages**: Ejecuta `npm run build` y sube `dist/` a gh-pages
-- **Cloudflare Pages**: Conecta repositorio con build command `npm run build`
+Cada página incluye:
 
-### Build Settings
+- **Hreflang tags**: Indica a Google las versiones traducidas
+- **Canonical URL**: URL principal de cada versión
+- **Open Graph**: Con locale específico (`en_US`, `es_ES`, `it_IT`)
+- **JSON-LD**: Structured data con schema Person
+- **Imágenes optimizadas**: Conversión automática a WebP (reducción del 99%)
 
-- **Build Command:** `npm run build`
-- **Publish Directory:** `dist`
-- **Node Version:** 18.x o superior
+## Comandos
 
-## 📚 Recursos
+```bash
+npm install          # Instalar dependencias
+npm run dev          # Desarrollo (localhost:4321)
+npm run build        # Build de producción
+npm run preview      # Preview del build
+```
 
-- [Documentación Astro](https://docs.astro.build)
-- [Devicon - Iconos de tecnologías](https://devicon.dev/)
-- [Google Fonts - JetBrains Mono](https://fonts.google.com/specimen/JetBrains+Mono)
+## Deploy
+
+El repositorio incluye GitHub Actions (`.github/workflows/deploy.yml`) que hace deploy automático a GitHub Pages en cada push a `main`.
+
+**Configuración manual:**
+
+- Build command: `npm run build`
+- Output directory: `dist`
+- Node version: 18.x
+
+Compatible con Vercel, Netlify, Cloudflare Pages.
+
+## Performance
+
+- **Imágenes**: Astro Image optimiza automáticamente (WebP, lazy loading)
+- **Scripts**: Mínimo JavaScript, ejecutado después del render
+- **CSS**: Inline crítico, resto lazy
+- **Fuentes**: Google Fonts con `display=swap`
+
+## Accesibilidad
+
+- `lang` attribute dinámico por ruta
+- `dir="ltr"` en HTML (preparado para RTL)
+- Aria labels traducidos
+- Botón scroll-to-top con texto localizado
+- Contraste WCAG AA compliant
